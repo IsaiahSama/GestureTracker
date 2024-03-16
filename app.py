@@ -55,20 +55,20 @@ while webcam.isOpened():
         hand_landmarks = result.hand_landmarks
         
         if top_gesture.category_name in gestures and hand_landmarks:
-            if top_gesture.category_name != current_gesture:
-                for hand_landmark in hand_landmarks:
-                    hand_landmarks_proto = landmark_pb2.NormalizedLandmarkList()
-                    hand_landmarks_proto.landmark.extend([
-                        landmark_pb2.NormalizedLandmark(x=landmark.x, y=landmark.y, z=landmark.z) for landmark in hand_landmark
-                    ])
+            for hand_landmark in hand_landmarks:
+                hand_landmarks_proto = landmark_pb2.NormalizedLandmarkList()
+                hand_landmarks_proto.landmark.extend([
+                    landmark_pb2.NormalizedLandmark(x=landmark.x, y=landmark.y, z=landmark.z) for landmark in hand_landmark
+                ])
 
-                    mp_drawing.draw_landmarks(
-                        img,
-                        hand_landmarks_proto,
-                        mp_hands.HAND_CONNECTIONS,
-                        mp_drawing_styles.get_default_hand_landmarks_style(),
-                        mp_drawing_styles.get_default_hand_connections_style()
-                    )
+                mp_drawing.draw_landmarks(
+                    img,
+                    hand_landmarks_proto,
+                    mp_hands.HAND_CONNECTIONS,
+                    mp_drawing_styles.get_default_hand_landmarks_style(),
+                    mp_drawing_styles.get_default_hand_connections_style()
+                )
+            if top_gesture.category_name != current_gesture:
                 current_gesture = top_gesture.category_name
                 emoji = gestures[top_gesture.category_name]
                 threading.Thread(target=display_emoji, args=(emoji,)).start()
