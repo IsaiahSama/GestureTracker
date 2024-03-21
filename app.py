@@ -11,10 +11,12 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
 base_options = python.BaseOptions(model_asset_path="gesture_recognizer.task")
-options = vision.GestureRecognizerOptions(base_options=base_options, min_hand_detection_confidence=0.3, min_hand_presence_confidence=0.3)
+options = vision.GestureRecognizerOptions(base_options=base_options, min_hand_detection_confidence=0.3, min_hand_presence_confidence=0.7)
 recognizer = vision.GestureRecognizer.create_from_options(options)
 
 webcam = cv2.VideoCapture(0)
+cv2.namedWindow("Live Gesture Viewer", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("Live Gesture Viewer", height=768, width=1366)
 
 gestures = {
     "Closed_fist": "👊",
